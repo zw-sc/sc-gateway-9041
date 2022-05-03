@@ -1,0 +1,26 @@
+server:
+  port: 9041
+
+spring:
+  application:
+    name: sc-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: sc-producer-router
+          uri: lb://sc-producer
+          predicates:
+            - Path=/resume/**
+        - id: sc-consumer-router
+          uri: http://localhost:9011
+          predicates:
+            - Path=/test/hy/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://euk-server-1:9001/eureka,http://euk-server-2:9002/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
